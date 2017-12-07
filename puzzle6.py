@@ -22,5 +22,29 @@ def part1(input):
 
     return "%s" % iterationcnt
 
+def part2(input):
+    blocks = [int(x) for x in input.split("\t")]
+    seenConfigurations = {}
+    iterationcnt = 1
+    while True:
+        nextSplitIdx = blocks.index(max(blocks))
+        banksize = blocks[nextSplitIdx]
+        blocks[nextSplitIdx] = 0
+        nextBlock = nextSplitIdx + 1
+        while banksize > 0:
+            if nextBlock == len(blocks):
+                nextBlock = 0
+            blocks[nextBlock] += 1
+            banksize -= 1
+            nextBlock += 1
+        blockstr = ' '.join(map(str, blocks))
+        if blockstr in seenConfigurations:
+            return "%s" % (iterationcnt - seenConfigurations[blockstr])
+            break
+        seenConfigurations[blockstr] = iterationcnt
+        iterationcnt += 1
+
+    return ""
+
 if __name__ == "__main__":
-    sys.stdout.write(part1(sys.stdin.read().strip()) + "\n")
+    sys.stdout.write(part2(sys.stdin.read().strip()) + "\n")
