@@ -4,7 +4,7 @@ import sys
 ops = {'inc': '+', 'dec': '-'}
 
 def maximums(input):
-    registers = defaultdict(lambda: 0)
+    registers = defaultdict(int)
     maximums = []
     for line in input.split('\n'):
         (reg, op, value, _, left, condition, right) = tuple(line.split(' '))
