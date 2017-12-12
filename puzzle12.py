@@ -6,14 +6,13 @@ def parse(input):
     for line in input.split("\n"):
         left = int(line[:line.index("<->")].strip())
         right = [int(x.strip()) for x in line[line.index("<->")+3:].strip().split(",")]
-        connections[left] = right
+        connections[left] = set(right)
     return connections
 
 def getTargets(start, connectedToGroup, connections):
     connectedTargets = connections[start]
-    unknownTargets = [x for x in connectedTargets if x not in connectedToGroup]
-    for x in connectedTargets:
-        connectedToGroup.add(x)
+    unknownTargets = connectedTargets - connectedToGroup
+    connectedToGroup |= connectedTargets
     for target in unknownTargets:
         getTargets(target, connectedToGroup, connections)
 
