@@ -20,12 +20,7 @@ def doit(input):
     connections = parse(input)
     groups = {}
     for entry in connections.keys():
-        skipEntry = False
-        for group in groups.keys():
-            if entry in list(groups[group]):
-                skipEntry = True
-                break
-        if skipEntry:
+        if len(filter(lambda key: entry in groups[key], groups.keys())) > 0:
             continue
         connectedToGroup = set([0])
         getTargets(entry, connectedToGroup, connections)
