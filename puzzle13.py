@@ -12,22 +12,22 @@ def scannersAtZeroWhenPassingWithDelay(delay, scannerConfig, firstOnly):
         positionAtPass2 = (delay + scannerPos) % ((scannerMax - 1) * 2)
         if positionAtPass2 == 0:
             if firstOnly:
-                return [(scannerPos, scannerMax)]
+                return (False, [(scannerPos, scannerMax)])
             scannersAtZero.append((scannerPos, scannerMax))
-    return scannersAtZero
+    return (True, scannersAtZero)
 
 def findDelay(config):
     delay = 0
     while True:
         scannersAtZero = scannersAtZeroWhenPassingWithDelay(delay, config, True)
-        if len(scannersAtZero) == 0:
+        if scannersAtZero[0]:
             return delay
         delay += 1
 
 
 def doit(input):
     firewallconfig = parse(input)
-    part1 = sum([x * y for (x,y) in scannersAtZeroWhenPassingWithDelay(0, firewallconfig, False)])
+    part1 = sum([x * y for (x,y) in scannersAtZeroWhenPassingWithDelay(0, firewallconfig, False)[1]])
     profiler = profile.Profile()
     profiler.enable()
     part2 = findDelay(firewallconfig)
