@@ -1,7 +1,7 @@
 import sys
 
 def parse(input):
-    return [(int(line.split(": ")[0]), int(line.split(": ")[1])) for line in input.split("\n")]
+    return [map(int, line.split(": ")) for line in input.split("\n")]
 
 def scannerPositionAfter(scanner, initialDelay):
     return (initialDelay + scanner[0]) % ((scanner[1] - 1) * 2)
