@@ -4,11 +4,11 @@ import StringIO
 import sys
 
 def parse(input):
-    return dict([(int(line.split(": ")[0]), int(line.split(": ")[1])) for line in input.split("\n")])
+    return [(int(line.split(": ")[0]), int(line.split(": ")[1])) for line in input.split("\n")]
 
 def scannersAtZeroWhenPassingWithDelay(delay, scannerConfig, firstOnly):
     scannersAtZero = []
-    for (scannerPos, scannerMax) in scannerConfig.items():
+    for (scannerPos, scannerMax) in scannerConfig:
         positionAtPass2 = (delay + scannerPos) % ((scannerMax - 1) * 2)
         if positionAtPass2 == 0:
             if firstOnly:
