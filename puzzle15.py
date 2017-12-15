@@ -1,4 +1,5 @@
 import sys
+from itertools import islice, izip
 
 def parse(lines):
     return [int(line.split(" ")[-1]) for line in lines]
@@ -20,13 +21,7 @@ def doit(lines):
     generatorStarts = parse(lines)
     generatorA = generator(generatorStarts[0], 16807, 4)
     generatorB = generator(generatorStarts[1], 48271, 8)
-    matches = 0
-    for i in range(0, 5000000):
-        genAValue = next(generatorA)
-        genBValue = next(generatorB)
-        if sameLowerBits(genAValue, genBValue):
-            matches += 1
-    return matches
+    return sum(1 for a, b in islice(izip(generatorA, generatorB), 5000000) if sameLowerBits(a, b))
 
 if __name__ == "__main__":
     print(doit(sys.stdin.readlines()))
