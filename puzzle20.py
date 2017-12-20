@@ -1,3 +1,4 @@
+from collections import defaultdict
 import sys
 
 def abssum(vec):
@@ -22,26 +23,6 @@ def add(vec1, vec2):
 def distance(vec1, vec2):
     return sum([abs(vec2[0]-vec1[0]), abs(vec2[1]-vec1[1]), abs(vec2[2]-vec1[2])])
 
-def distances(particles):
-    distances = []
-    for i in range(len(particles) - 1):
-        particledistances = []
-        for j in range(i+1,len(particles)):
-            particledistances.append(distance(particles[i]['pos'], particles[j]['pos']))
-        distances.append(particledistances)
-    return distances
-
-def hasapproachingparticles(old_distances, new_distances):
-    assert len(old_distances) == len(new_distances)
-    for i in range(len(old_distances)):
-        assert len(old_distances[i]) == len(new_distances[i])
-        for j in range(len(old_distances[i])):
-            old_distance = old_distances[i][j]
-            new_distance = new_distances[i][j]
-            if new_distance < old_distance:
-                return True
-    return False
-
 def doit(lines):
     particles = [parse(line, i) for (i,line) in enumerate(lines)]
     origin = (0,0,0)
@@ -50,37 +31,29 @@ def doit(lines):
     accelerations = [(distance(origin, p['acc']), p["acc"], i) for (i,p) in enumerate(particles)]
     accelerations.sort()
     part1 = accelerations[:5]
-    # Formula: pt = .5 * a0 * t ^ 2 + v0 * t + p0
-    last_distances = distances(particles)
     iter = 0
     while True:
-        print "iteration", iter
-        iter += 1
         for particle in particles:
             particle['vel'] = add(particle['vel'], particle['acc'])
             particle['pos'] = add(particle['pos'], particle['vel'])
             particle['dist'] = distance(origin, particle['pos'])
-        new_distances = distances(particles)
-        print "old", last_distances
-        print "new", new_distances
-        collidingparticleindexes = set()
-        for i in range(len(new_distances)):
-            if i in collidingparticleindexes:
-                continue
-            for j in range(len(new_distances[i])):
-                if new_distances[i][j] == 0:
-                    collidingparticleindexes.add(i)
-                    collidingparticleindexes.add(j + i + 1)
-        indexestoremove = list(collidingparticleindexes)
-        indexestoremove.sort()
-        indexestoremove.reverse()
-        print "colliding", indexestoremove
-        for idx in indexestoremove:
+        collisions = defaultdict(list)
+        for (i, particle) in enumerate(particles):
+            collisions[particle['pos']].append(i)
+        particlestoremove = []
+        for collisionlist in collisions.values():
+            if len(collisionlist) > 1:
+                particlestoremove += collisionlist
+        particlestoremove.sort()
+        particlestoremove.reverse()
+        #print "colliding", particlestoremove
+        for idx in particlestoremove:
             del particles[idx]
-        print "clean particles", particles
-        if not hasapproachingparticles(last_distances, new_distances) or len(particles) == 1:
+        #print "clean particles", particles
+        if iter == 50:
             break
-        last_distances = new_distances
+        iter += 1
+        print iter, len(particles)
     part2 = len(particles), [p['idx'] for p in particles]
     return {"part1":part1, "part2":part2}
 if __name__ == "__main__":
