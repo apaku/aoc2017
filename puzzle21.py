@@ -31,8 +31,8 @@ def matchPattern(grid, rules):
     return [rule[1] for rule in rules if rule[0] == grid][0]
 
 def subgrid(grid, offset, size):
-    startline = offset[1] * size
-    startcol = offset[0] * size
+    startline = offset[0] * size
+    startcol = offset[1] * size
     subgrid = []
     for i in range(size):
         subgrid.append(grid[startline+i][startcol:startcol+size])
