@@ -25,18 +25,10 @@ def toStr(grid):
     return '\n'.join(''.join('#' if b else '.' for b in line) for line in grid)
 
 def parsePattern(lines):
-    grid = []
-    for line in lines:
-        grid.append([x == '#' for x in line])
-    return grid
+    return [[x == '#' for x in line] for line in lines]
 
 def matchPattern(grid, rules):
-    for rule in rules:
-        if len(rule[0]) != len(grid[0]):
-            continue
-        if rule[0] == grid:
-            return rule[1]
-    return None
+    return [rule[1] for rule in rules if rule[0] == grid][0]
 
 def subgrid(grid, offset, size):
     startline = offset[1] * size
