@@ -66,8 +66,9 @@ def explode(rules):
     for rule in rules:
         for rotation in [0, 90, 180, 270]:
             explodedrules.append((list(rotate(rule[0], rotation)), rule[1]))
+        flipped = list(flipVertical(rule[0]))
         for rotation in [0, 90, 180, 270]:
-            explodedrules.append((list(flipVertical(rotate(rule[0], rotation))), rule[1]))
+            explodedrules.append((rotate(flipped, rotation), rule[1]))
     return explodedrules
 
 def doit(lines):
