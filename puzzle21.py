@@ -51,7 +51,8 @@ def merge(grids):
     numsubgridstomerge = int(math.sqrt(len(grids)))
     grid = []
     for i in range(0, numsubgridstomerge):
-        merged = [list(chain(*k)) for k in zip(*grids[i:i + numsubgridstomerge])]
+        startidx = numsubgridstomerge * i
+        merged = [list(chain(*k)) for k in zip(*grids[startidx:startidx + numsubgridstomerge])]
         grid += merged
     return grid
 
