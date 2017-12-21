@@ -84,7 +84,7 @@ def doit(lines, iterations):
             subgrids[i] = matchPattern(subgrid, rules)
             assert subgrids[i] is not None
         grid = merge(subgrids)
-        print toStr(grid)
+        print "enhanced\n", toStr(grid)
         print "----------------"
     print "Final grid\n", toStr(grid)
     return len([y for x in grid for y in x if y])
