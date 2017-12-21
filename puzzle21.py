@@ -71,12 +71,11 @@ def explode(rules):
             explodedrules.append((rotate(flipped, rotation), rule[1]))
     return explodedrules
 
-def doit(lines):
+def doit(lines, iterations):
     grid = start
     print "original\n", toStr(grid)
-    rules = explode([parse(line) for line in lines])
     print "rules", len(rules)
-    for i in range(5):
+    for i in range(iterations):
         if len(grid) % 2 == 0:
             subgrids = divide(grid, 2)
         else:
@@ -91,4 +90,5 @@ def doit(lines):
     return len([y for x in grid for y in x if y])
 
 if __name__ == "__main__":
-    print doit(sys.stdin.readlines())
+    rules = explode([parse(line) for line in sys.stdin.readlines()])
+    print doit(rules, 5)
