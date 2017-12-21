@@ -22,16 +22,7 @@ def flipHorizontal(grid):
     return zip(*reversed(zip(*grid)))
 
 def toStr(grid):
-    text = ""
-    for line in grid:
-        for b in line:
-            if b:
-                text += "#"
-            else:
-                text += "."
-
-        text += "\n"
-    return text
+    return '\n'.join(''.join('#' if b else '.' for b in line) for line in grid)
 
 def parsePattern(lines):
     grid = []
@@ -102,6 +93,7 @@ def doit(lines):
             assert subgrids[i] is not None
         grid = merge(subgrids)
         print toStr(grid)
+        print "----------------"
     print "Final grid\n", toStr(grid)
     return len([y for x in grid for y in x if y])
 
