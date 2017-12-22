@@ -14,7 +14,6 @@ def parse(lines):
     return infected
 
 def turnLeft(olddir):
-    print "turning left on", olddir
     if olddir == (0,0) or olddir == (0,1):
         return (-1,0)
     elif olddir == (-1,0):
@@ -26,7 +25,6 @@ def turnLeft(olddir):
     assert not "Should not happen %s" % olddir
 
 def turnRight(olddir):
-    print "turning right on", olddir
     if olddir == (0,0) or olddir == (0,1):
         return (1,0)
     elif olddir == (1,0):
@@ -37,21 +35,43 @@ def turnRight(olddir):
         return (0,1)
     assert not "Should not happen %s" % olddir
 
-def doit(lines):
-    infected = parse(lines)
+def part1(infected):
     curpos = (0,0)
     direction = (0,0)
     infectcount = 0
     for i in range(10000):
         direction = turnRight(direction) if curpos in infected else turnLeft(direction)
-        print "direction", direction
         if curpos in infected:
             infected.remove(curpos)
         else:
             infected.add(curpos)
             infectcount += 1
         curpos = (curpos[0]+direction[0], curpos[1]+direction[1])
-    print infected
+    return infectcount
+
+def part2(infected):
+    curpos = (0,0)
+    direction = (0,0)
+    infectcount = 0
+    flagged = set()
+    weakened = set()
+    for i in range(10000000):
+        if curpos in infected:
+            infected.remove(curpos)
+            flagged.add(curpos)
+            direction = turnRight(direction)
+        elif curpos in flagged:
+            flagged.remove(curpos)
+            direction = turnLeft(turnLeft((direction)))
+        elif curpos in weakened:
+            weakened.remove(curpos)
+            infected.add(curpos)
+            infectcount += 1
+        else:
+            weakened.add(curpos)
+            direction = turnLeft(direction)
+        curpos = (curpos[0]+direction[0], curpos[1]+direction[1])
     return infectcount
 if __name__ == "__main__":
-    print doit(sys.stdin.readlines())
+    infected = parse(sys.stdin.readlines())
+    print part1(set(infected)), part2(set(infected))
