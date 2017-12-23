@@ -50,26 +50,54 @@ def parse(lines):
             assert not "Unknown instruction %s" % instructions
     return instructionlist
 
-def calculate(instructions, registers, debug=False):
+def part1():
+    instructions = parse(sys.stdin.readlines())
     i = 0
     cmds = []
-    print registers
+    registers = defaultdict(int)
     while i < len(instructions) and i >= 0:
         (jump, cmd) = instructions[i](registers)
-        if debug:print "ran", cmd, "to get\n", registers
         cmds.append(cmd)
         i += jump
-        if debug and 'g' in registers and registers['g'] == 0:
-            print 'register g is 0', registers
-        if debug and 'h' in cmd:
-            print "Changed h", registers
-    return cmds
+    return len([cmd for cmd in cmds if 'mul' in cmd])
+
+def part2():
+    def isprime(n):
+        '''check if integer n is a prime'''
+
+        # make sure n is a positive integer
+        n = abs(int(n))
+
+        # 0 and 1 are not primes
+        if n < 2:
+            return False
+
+        # 2 is the only even prime number
+        if n == 2:
+            return True
+
+        # all other even numbers are not primes
+        if not n & 1:
+            return False
+
+        # range starts with 3 and only needs to go up
+        # the square root of n for all odd numbers
+        for x in range(3, int(n**0.5) + 1, 2):
+            if n % x == 0:
+                return False
+
+        return True
+    start = 108100
+    end = 125100
+    step = 17
+    primecnt = 0
+    nonprimecnt = 0
+    while start <= end:
+        if not isprime(start):
+            nonprimecnt += 1
+        start += step
+    return nonprimecnt
 
 if __name__ == "__main__":
-    instructions = parse(sys.stdin.readlines())
-    registers = defaultdict(int)
-    cmds = calculate(instructions, registers)
-    print "part1", len([cmd for cmd in cmds if 'mul' in cmd])
-    registers = defaultdict(int)
-    registers['a'] = 1
-    print calculate(instructions, registers, True), registers
+    print "part1", part1()
+    print "part2", part2()
