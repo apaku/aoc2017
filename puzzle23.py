@@ -90,13 +90,7 @@ def part2():
     start = 108100
     end = 125100
     step = 17
-    primecnt = 0
-    nonprimecnt = 0
-    while start <= end:
-        if not isprime(start):
-            nonprimecnt += 1
-        start += step
-    return nonprimecnt
+    return len([x for x in range(start, end+1, step) if not isprime(x)])
 
 if __name__ == "__main__":
     print "part1", part1()
