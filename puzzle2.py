@@ -1,15 +1,15 @@
 import sys
 
-def part1(input):
+def part1(lines):
     sum = 0;
-    for row in input.split('\n'):
+    for row in lines:
         l = [int(x) for x in row.split('\t')]
         sum += max(l) - min(l)
-    return "%s" % sum
+    return sum
 
 def part2(input):
     sum = 0
-    for row in input.split('\n'):
+    for row in lines:
         l = [int(x) for x in row.split('\t')]
         for i in range(len(l)):
             for j in range(i+1, len(l)):
@@ -19,7 +19,9 @@ def part2(input):
                     num1, num2 = num2, num1
                 if num1 % num2 == 0:
                     sum += num1 / num2
-    return "%s" % sum
+    return sum
 
 if __name__ == "__main__":
-    sys.stdout.write(part2(sys.stdin.read().strip())+"\n")
+    lines = sys.stdin.readlines()
+    print part1(lines)
+    print part2(lines)

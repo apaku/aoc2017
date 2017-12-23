@@ -1,19 +1,19 @@
 import sys
 
-def part1(input):
+def part1(numbers):
     cnt = 0
-    l = [int(x) for x in input.split('\n')]
+    l = list(numbers)
     idx = 0
     while idx < len(l):
         jmp = l[idx]
         l[idx] += 1
         idx += jmp
         cnt += 1
-    return "%s" % cnt
+    return cnt
 
-def part2(input):
+def part2(numbers):
     cnt = 0
-    l = [int(x) for x in input.split('\n')]
+    l = list(numbers)
     idx = 0
     while idx < len(l):
         jmp = l[idx]
@@ -23,7 +23,9 @@ def part2(input):
             l[idx] += 1
         idx += jmp
         cnt += 1
-    return "%s" % cnt
+    return cnt
 
 if __name__ == "__main__":
-    sys.stdout.write(part2(sys.stdin.read().strip())+"\n")
+    lines = [int(line.strip()) for line in sys.stdin.readlines()]
+    print part1(lines)
+    print part2(lines)

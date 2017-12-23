@@ -24,8 +24,8 @@ def reduceTree(tree):
         return newtree
     return reduceTree(newtree)
 
-def part1(input):
-    return "%s" % (reduceTree(parse(input)))
+def part1(tree):
+    return reduceTree(tree)
 
 def nodeWeight(node, tree):
     return tree[node][0] + sum(map(lambda x: nodeWeight(x, tree), tree[node][1]))
@@ -58,11 +58,11 @@ def findImbalance(node, tree):
     diff = balWeight - unbalWeight
     return (unbalNames[0], diff, tree[unbalNames[0]][0] + diff)
 
-def part2(input):
-    tree = parse(input)
+def part2(tree):
     rootNode = reduceTree(tree)
-    print findImbalance(rootNode.keys()[0], tree)
-    return ""
+    return findImbalance(rootNode.keys()[0], tree)
 
 if __name__ == "__main__":
-    sys.stdout.write(part2(sys.stdin.read().strip()) + '\n')
+    tree = parse(sys.stdin.read().strip())
+    print part1(tree)
+    print part2(tree)

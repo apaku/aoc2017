@@ -1,8 +1,8 @@
 import sys
 
-def part1(input):
+def part1(lines):
     valid_phrases = 0;
-    for row in input.split('\n'):
+    for row in lines:
         words = row.split(' ')
         words.sort()
         valid = True
@@ -12,11 +12,11 @@ def part1(input):
                 break
         if valid:
             valid_phrases += 1
-    return "%s" % valid_phrases
+    return valid_phrases
 
-def part2(input):
+def part2(lines):
     valid_phrases = 0;
-    for row in input.split('\n'):
+    for row in lines:
         words = row.split(' ')
         words.sort()
         valid = True
@@ -33,7 +33,9 @@ def part2(input):
                 break
         if valid:
             valid_phrases += 1
-    return "%s" % valid_phrases
+    return valid_phrases
 
 if __name__ == "__main__":
-    sys.stdout.write(part2(sys.stdin.read().strip())+"\n")
+    lines = [line.strip() for line in sys.stdin.readlines()]
+    print part1(lines)
+    print part2(lines)

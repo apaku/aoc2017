@@ -35,6 +35,7 @@ def part1(input):
             distance = "%s" %(abs(x) + abs(y))
             break
     return distance
+
 def part2(input):
     values = {(0,0): 1}
     for i, (x,y) in enumerate(indices()):
@@ -46,5 +47,8 @@ def part2(input):
         if curvalue > int(input):
             return curvalue
     assert False
+
 if __name__ == "__main__":
-    print(part2(sys.stdin.read().strip()))
+    data = sys.stdin.read().strip()
+    print part1(data)
+    print part2(data)

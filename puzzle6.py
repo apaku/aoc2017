@@ -1,7 +1,7 @@
 import sys
 
-def part1(input):
-    blocks = [int(x) for x in input.split("\t")]
+def part1(numbers):
+    blocks = list(numbers)
     seenConfigurations = []
     iterationcnt = 1
     while True:
@@ -20,10 +20,10 @@ def part1(input):
         seenConfigurations.append(list(blocks))
         iterationcnt += 1
 
-    return "%s" % iterationcnt
+    return iterationcnt
 
-def part2(input):
-    blocks = [int(x) for x in input.split("\t")]
+def part2(numbers):
+    blocks = list(numbers)
     seenConfigurations = {}
     iterationcnt = 1
     while True:
@@ -39,12 +39,14 @@ def part2(input):
             nextBlock += 1
         blockstr = ' '.join(map(str, blocks))
         if blockstr in seenConfigurations:
-            return "%s" % (iterationcnt - seenConfigurations[blockstr])
+            return iterationcnt - seenConfigurations[blockstr]
             break
         seenConfigurations[blockstr] = iterationcnt
         iterationcnt += 1
 
-    return ""
+    return None
 
 if __name__ == "__main__":
-    sys.stdout.write(part2(sys.stdin.read().strip()) + "\n")
+    data = [int(x) for x in sys.stdin.read().split('\t')]
+    print part1(data)
+    print part2(data)

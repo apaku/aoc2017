@@ -48,4 +48,6 @@ def part2(input):
     return ''.join(["{:02X}".format(num) for num in densehash])
 
 if __name__ == "__main__":
-    print(part2(sys.stdin.read().strip()))
+    data = sys.stdin.read().strip()
+    print(part1(data))
+    print(part2(data))

@@ -8,7 +8,7 @@ def part1(input):
         if input[i] == input[i+1]:
             sum += int(input[i])
 
-    return "%s" % sum
+    return sum
 
 def part2(input):
     sum = 0
@@ -19,7 +19,9 @@ def part2(input):
             targetidx = targetidx - inputlen
         if input[i] == input[targetidx]:
             sum += int(input[i])
-    return "%s" % sum
+    return sum
 
 if __name__ == "__main__":
-    sys.stdout.write(part2(sys.stdin.read().strip())+"\n")
+    numbers = sys.stdin.read().strip()
+    print part1(numbers)
+    print part2(numbers)
